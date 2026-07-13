@@ -1,0 +1,637 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aarti TalentForge — AI Resume Intelligence for Steel</title>
+  <meta name="description" content="Aarti TalentForge: AI-powered HR resume scanning, scoring, ranking and shortlisting across Rolling Mill, Power Plant, Cyber Security, IT, SAP, Finance and more at Aarti Steels Ltd." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='8' y='18' width='84' height='64' fill='none' stroke='%233da4f0' stroke-width='6'/><text x='50' y='54' font-size='32' text-anchor='middle' fill='%233da4f0' font-family='Brush Script MT, cursive' font-style='italic' font-weight='bold'>Aarti</text><rect x='22' y='60' width='56' height='15' fill='%233da4f0'/></svg>" />
+</head>
+<body>
+  <!-- ===================== WELCOME SPLASH ===================== -->
+  <div id="welcome" class="welcome">
+    <div class="wc-curtain wc-left"></div>
+    <div class="wc-curtain wc-right"></div>
+    <div class="wc-seam"></div>
+    <div class="wc-grid"></div>
+    <div class="wc-glow"></div>
+    <canvas class="wc-canvas" id="wcCanvas"></canvas>
+    <div class="wc-sparks" id="wcSparks"></div>
+    <div class="welcome-inner">
+      <div class="wc-logo-wrap">
+        <span class="wc-ring"></span>
+        <span class="brand-logo welcome-logo"><span class="brand-logo-text">Aarti</span><span class="brand-logo-bar"></span></span>
+      </div>
+      <h2 class="welcome-title">Welcome to <span>TalentForge</span></h2>
+      <p class="welcome-sub">AI Resume Intelligence · Aarti Steels Ltd</p>
+      <p class="welcome-greet" id="welcomeGreet">Good day — let's find the right talent.</p>
+      <div class="welcome-bar"><i></i></div>
+      <div class="wc-meta"><span class="wc-status" id="wcStatus">Initialising engine…</span><span class="wc-pct" id="wcPct">0%</span></div>
+      <small class="welcome-skip">Click anywhere to enter</small>
+    </div>
+  </div>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="Aarti TalentForge home">
+        <span class="brand-logo">
+          <span class="brand-logo-text">Aarti</span>
+          <span class="brand-logo-bar"></span>
+        </span>
+        <span class="brand-text">
+          <strong>TALENTFORGE</strong>
+          <small>AI Resume Intelligence</small>
+        </span>
+      </a>
+      <nav class="main-nav" id="mainNav">
+        <a href="#home" class="nav-link active" data-tab="home">Home</a>
+        <a href="#scanner" class="nav-link" data-tab="scanner">Scanner</a>
+        <a href="#bulk" class="nav-link" data-tab="bulk">Bulk Scan</a>
+        <a href="#pool" class="nav-link" data-tab="pool">Candidate Pool</a>
+        <a href="#analytics" class="nav-link" data-tab="analytics">Analytics</a>
+        <a href="#about" class="nav-link" data-tab="about">About</a>
+        <label class="blind-toggle" title="Hide identity details (name, email, gender cues) to reduce bias">
+          <input type="checkbox" id="blindToggle" /><span class="bt-track"></span><em>Blind</em>
+        </label>
+        <span class="status-dot"><i></i>AI Online</span>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+
+  <!-- ===================== HOME ===================== -->
+  <section class="tab-panel active" id="home">
+    <div class="hero">
+      <div class="hero-grid-bg"></div>
+      <canvas class="hero-net" id="netCanvas" aria-hidden="true"></canvas>
+      <div class="hero-glow"></div>
+      <div class="container hero-content">
+        <span class="eyebrow">Aarti Steels Ltd · Forging Talent Since 1979</span>
+        <h1>Forge the Right Team<br><span class="accent">for the Steel of Tomorrow</span></h1>
+        <p class="hero-sub">
+          <strong>Aarti TalentForge</strong> is an AI-assisted HR platform that scans candidate
+          resumes, scores them against the exact skills each plant function needs, and surfaces the
+          strongest applicants for interview — from the Rolling Mill and Power Plant to Cyber
+          Security, SAP, IT and Finance.
+        </p>
+        <p class="hero-rotate">Now scoring resumes for <span class="rotate-word" id="rotateWord">Rolling Mill</span></p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-goto="scanner">Scan a Resume</button>
+          <button class="btn btn-ghost" data-goto="pool">View Candidate Pool</button>
+        </div>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat"><strong data-stat="total">0</strong><span>Resumes Scanned</span></div>
+          <div class="stat"><strong data-stat="shortlisted">0</strong><span>In Pipeline</span></div>
+          <div class="stat"><strong data-stat="avg">0</strong><span>Avg. Score</span></div>
+          <div class="stat"><strong data-stat="depts">0</strong><span>Departments</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <h2 class="section-title">How TalentForge Works</h2>
+      <div class="cards-grid">
+        <div class="card reveal">
+          <div class="card-icon">📄</div>
+          <h3>1. Upload Resume</h3>
+          <p>Upload a PDF or text resume. Parsing runs securely inside your browser — the file never leaves your machine.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🧠</div>
+          <h3>2. AI Department Match</h3>
+          <p>The engine reads the resume against the chosen function's skill, tooling and certification profile and scores eight weighted dimensions.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🏆</div>
+          <h3>3. Rank &amp; Shortlist</h3>
+          <p>Candidates rank automatically. Filter by department or score, flag the best fits for interview, and export your shortlist to CSV.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dept-band">
+      <div class="container">
+        <h2 class="section-title light">Hiring Across Every Plant Function</h2>
+        <p class="section-lead light">Each department has its own AI skill profile tuned to the work that actually happens there.</p>
+        <div class="dept-grid" id="deptGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCANNER ===================== -->
+  <section class="tab-panel" id="scanner">
+    <div class="container section">
+      <h2 class="section-title">Resume Scanner</h2>
+      <p class="section-lead">Select the target department, drop in the resume, and run the AI analysis.</p>
+
+      <div class="scanner-grid">
+        <!-- Input column -->
+        <div class="panel">
+          <h3 class="panel-title">1 · Candidate &amp; Role</h3>
+          <label class="field">
+            <span>Candidate Name</span>
+            <input type="text" id="candName" placeholder="e.g. Ravi Kumar" />
+          </label>
+          <label class="field">
+            <span>Position / Role Applied</span>
+            <input type="text" id="candPosition" placeholder="e.g. Rolling Mill Engineer" />
+          </label>
+          <label class="field">
+            <span>Applying For (Department)</span>
+            <select id="deptSelect"></select>
+          </label>
+          <p class="dept-hint" id="deptHint"></p>
+          <details class="jd-box" id="jdBox">
+            <summary>Score against a specific Job Description (optional)</summary>
+            <textarea id="jdText" rows="4" placeholder="Paste the job description here. When provided, the score blends the department profile with this exact role's requirements."></textarea>
+          </details>
+          <div class="field-row">
+            <label class="field">
+              <span>Candidate Email</span>
+              <input type="email" id="candEmail" placeholder="name@email.com" />
+            </label>
+            <label class="field">
+              <span>Candidate Phone</span>
+              <input type="tel" id="candPhone" placeholder="+91 ..." />
+            </label>
+          </div>
+          <p class="contact-prefill" id="contactPrefill"></p>
+          <div class="field-row">
+            <label class="field">
+              <span>Application Source</span>
+              <select id="candSource">
+                <option value="Referral">Referral</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="Naukri">Naukri</option>
+                <option value="Company Website">Company Website</option>
+                <option value="Walk-in">Walk-in</option>
+                <option value="Campus">Campus</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Min. Experience (years)</span>
+              <input type="number" id="minExp" value="2" min="0" max="40" />
+            </label>
+          </div>
+
+          <h3 class="panel-title">2 · Resume File</h3>
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept=".pdf,.txt" hidden />
+            <div class="dropzone-inner">
+              <div class="dz-icon">⬆️</div>
+              <p><strong>Click to upload</strong> or drag &amp; drop</p>
+              <small>PDF or TXT · processed locally in your browser</small>
+            </div>
+          </div>
+          <div class="file-status" id="fileStatus"></div>
+
+          <details class="paste-box">
+            <summary>Or paste resume text manually</summary>
+            <textarea id="pasteArea" rows="6" placeholder="Paste the resume text here..."></textarea>
+          </details>
+
+          <button class="btn btn-primary btn-block" id="analyzeBtn" disabled>Analyze Resume</button>
+        </div>
+
+        <!-- Result column -->
+        <div class="panel result-panel" id="resultPanel">
+          <h3 class="panel-title">AI Analysis Result</h3>
+          <div class="scan-overlay" id="scanOverlay" hidden>
+            <div class="scan-doc"></div>
+            <p>Analyzing resume…</p>
+          </div>
+          <div class="result-empty" id="resultEmpty">
+            <div class="dz-icon">📊</div>
+            <p>Upload a resume and click <strong>Analyze</strong> to see the score breakdown here.</p>
+          </div>
+
+          <div class="result-body" id="resultBody" hidden>
+            <div class="score-top">
+              <div class="score-ring-wrap">
+                <svg class="score-ring" viewBox="0 0 120 120">
+                  <circle class="ring-bg" cx="60" cy="60" r="52" />
+                  <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="52" />
+                </svg>
+                <div class="score-center">
+                  <span class="score-num" id="scoreNum">0</span>
+                  <span class="score-out">/100</span>
+                </div>
+              </div>
+              <div class="score-meta">
+                <div class="verdict" id="verdict"></div>
+                <div class="meta-line" id="metaLine"></div>
+              </div>
+            </div>
+
+            <div class="breakdown" id="breakdown"></div>
+
+            <div class="insights" id="insights"></div>
+
+            <div class="matched-skills">
+              <h4>Matched Skills &amp; Tools</h4>
+              <div class="chips" id="matchedChips"></div>
+              <h4>Missing / Recommended</h4>
+              <div class="chips muted" id="missingChips"></div>
+            </div>
+
+            <details class="highlight-box">
+              <summary>View resume with matched keywords highlighted</summary>
+              <div class="hl-text" id="hlText"></div>
+            </details>
+
+            <label class="field" style="margin-top:18px;">
+              <span>Recruiter Notes (optional)</span>
+              <textarea id="candNotes" rows="2" placeholder="Interview remarks, availability, salary expectation..."></textarea>
+            </label>
+
+            <div class="result-actions">
+              <button class="btn btn-primary" id="saveBtn">Save to Candidate Pool</button>
+              <button class="btn btn-ghost" id="scorecardBtn">PDF Scorecard</button>
+              <button class="btn btn-ghost" id="rescanBtn">Scan Another</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POOL ===================== -->
+  <section class="tab-panel" id="pool">
+    <div class="container section">
+      <h2 class="section-title">Candidate Pool</h2>
+      <p class="section-lead">Ranked applicants with a live hiring pipeline. Filter, track stages, and export.</p>
+
+      <div class="hr-dash" id="hrDash"></div>
+
+      <div class="pool-toolbar">
+        <div class="filters">
+          <select id="filterDept"><option value="">All Departments</option></select>
+          <select id="filterScore">
+            <option value="0">Any Score</option>
+            <option value="80">80+ (Excellent)</option>
+            <option value="65">65+ (Strong)</option>
+            <option value="50">50+ (Average)</option>
+          </select>
+          <select id="filterStatus">
+            <option value="">All Stages</option>
+            <option value="New">New</option>
+            <option value="Shortlisted">Shortlisted</option>
+            <option value="Interview">Interview</option>
+            <option value="Selected">Selected</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+          <input type="text" id="searchBox" placeholder="Search name / skill..." />
+        </div>
+        <div class="pool-actions">
+          <button class="btn btn-sm btn-primary" id="compareBtn" disabled>Compare (0)</button>
+          <button class="btn btn-sm btn-ghost" id="exportBtn">Export CSV</button>
+          <button class="btn btn-sm btn-danger" id="clearBtn">Clear All</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="pool-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="selectAll" title="Select all for comparison" /></th>
+              <th>Rank</th>
+              <th>Candidate</th>
+              <th>Department</th>
+              <th>Score</th>
+              <th>Top Skills</th>
+              <th>Stage</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="poolBody"></tbody>
+        </table>
+        <div class="pool-empty" id="poolEmpty">
+          <p>No candidates yet. Head to the <a href="#scanner" data-goto="scanner">Resume Scanner</a> to add your first one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BULK SCAN ===================== -->
+  <section class="tab-panel" id="bulk">
+    <div class="container section">
+      <h2 class="section-title">Bulk Resume Scan</h2>
+      <p class="section-lead">Drop many resumes at once. Each is parsed, scored and ranked automatically — then add the lot to your candidate pool in one click.</p>
+
+      <div class="bulk-controls">
+        <label class="field">
+          <span>Department for this batch</span>
+          <select id="bulkDept"></select>
+        </label>
+        <label class="field">
+          <span>Min. Experience (years)</span>
+          <input type="number" id="bulkMinExp" value="2" min="0" max="40" />
+        </label>
+        <label class="field">
+          <span>Application Source</span>
+          <select id="bulkSource">
+            <option value="Referral">Referral</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Naukri">Naukri</option>
+            <option value="Company Website">Company Website</option>
+            <option value="Walk-in">Walk-in</option>
+            <option value="Campus">Campus</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="dropzone bulk-dropzone" id="bulkDropzone">
+        <input type="file" id="bulkFileInput" accept=".pdf,.txt" multiple hidden />
+        <div class="dropzone-inner">
+          <div class="dz-icon">📂</div>
+          <p><strong>Click to upload</strong> or drag &amp; drop multiple resumes</p>
+          <small>PDF or TXT · up to ~30 files · processed locally in your browser</small>
+        </div>
+      </div>
+      <div class="file-status" id="bulkStatus"></div>
+
+      <div class="bulk-result-wrap" id="bulkResultWrap" hidden>
+        <div class="bulk-result-head">
+          <h3 id="bulkResultTitle">Ranked Results</h3>
+          <div>
+            <button class="btn btn-sm btn-primary" id="bulkAddAll">Add All to Pool</button>
+            <button class="btn btn-sm btn-ghost" id="bulkClear">Clear</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="pool-table">
+            <thead>
+              <tr><th>Rank</th><th>Candidate</th><th>Score</th><th>Exp.</th><th>Top Skills</th><th>Status</th></tr>
+            </thead>
+            <tbody id="bulkBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANALYTICS ===================== -->
+  <section class="tab-panel" id="analytics">
+    <div class="container section">
+      <h2 class="section-title">Hiring Analytics</h2>
+      <p class="section-lead">A live read on your pipeline — demand by department, source effectiveness, funnel drop-off and time-to-hire.</p>
+      <div id="analyticsEmpty" class="pool-empty">
+        <p>No data yet. Scan and save some candidates first, then come back to see the analytics.</p>
+      </div>
+      <div id="analyticsBody" hidden>
+        <div class="an-kpis" id="anKpis"></div>
+        <div class="an-grid">
+          <div class="an-card"><h4>Hiring Funnel</h4><div id="anFunnel"></div></div>
+          <div class="an-card"><h4>Department Demand</h4><div id="anDept"></div></div>
+          <div class="an-card"><h4>Source Effectiveness</h4><div id="anSource"></div></div>
+          <div class="an-card">
+            <h4>Integrations &amp; Export</h4>
+            <div class="integration-box">
+              <button class="btn btn-sm btn-ghost" id="anExportSheets">Export for Google Sheets</button>
+              <button class="btn btn-sm btn-ghost" id="anJobPost">Generate Job Post</button>
+              <p class="int-note">CSV imports directly into Google Sheets / Excel / most HRMS. The job-post generator creates ready-to-paste text for Naukri &amp; LinkedIn. Direct API posting and shared cloud storage require a backend (see README).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="tab-panel" id="about">
+    <div class="container section about-section">
+      <h2 class="section-title">About Aarti Steels Ltd</h2>
+
+      <p class="about-lead reveal">
+        Aarti Steels Ltd is the flagship steel business of the <strong>Aarti Group</strong>, a
+        diversified industrial house established in <strong>1979</strong> with interests spanning
+        steel, textiles and healthcare. Over four decades, the company has grown into a
+        <strong>fully integrated carbon and alloy steel manufacturer</strong>, supplying critical
+        long products to the automotive, engineering and components industries across India and
+        beyond.
+      </p>
+
+      <div class="about-block reveal">
+        <h3 class="about-sub">Heritage &amp; Growth</h3>
+        <p>
+          What began as a single steel unit has matured into an end-to-end operation that controls
+          the full value chain — from steel melting and refining to continuous casting and
+          precision rolling. This integration lets Aarti Steels hold tight control over chemistry,
+          cleanliness and consistency, the three qualities that matter most to demanding alloy-steel
+          customers.
+        </p>
+      </div>
+
+      <div class="about-block reveal">
+        <h3 class="about-sub">Manufacturing Facilities</h3>
+        <div class="facility-grid">
+          <div class="facility-card">
+            <div class="facility-icon">🏭</div>
+            <h4>Ludhiana, Punjab</h4>
+            <p>The group's northern hub for alloy and carbon steel production, serving the dense
+               automotive and components belt of North India.</p>
+          </div>
+          <div class="facility-card">
+            <div class="facility-icon">🏭</div>
+            <h4>Cuttack, Odisha</h4>
+            <p>The eastern integrated plant with melting, casting and rolling lines plus captive
+               power, positioned close to raw-material and power resources.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-block reveal">
+        <h3 class="about-sub">What We Make</h3>
+        <p>A broad portfolio of carbon, alloy and micro-alloyed steel long products:</p>
+        <div class="product-grid">
+          <span class="product-tag">Alloy Steel Rounds</span>
+          <span class="product-tag">Alloy Steel Squares</span>
+          <span class="product-tag">Spring Steel</span>
+          <span class="product-tag">Tyre Bead Wire</span>
+          <span class="product-tag">Music / HTGS Wire</span>
+          <span class="product-tag">Automotive Steel</span>
+          <span class="product-tag">Hand Tool Flats</span>
+          <span class="product-tag">Micro-Alloyed Steel</span>
+          <span class="product-tag">Bright Bars</span>
+        </div>
+      </div>
+
+      <div class="about-block reveal">
+        <h3 class="about-sub">Industries We Serve</h3>
+        <div class="industry-list">
+          <div class="industry-item"><span>🚗</span> Automotive &amp; auto components</div>
+          <div class="industry-item"><span>🏍️</span> Two-wheeler &amp; cycle tyre bead wire</div>
+          <div class="industry-item"><span>⚙️</span> Engineering &amp; general fabrication</div>
+          <div class="industry-item"><span>🔧</span> Fasteners &amp; hand tools</div>
+          <div class="industry-item"><span>🛠️</span> Forging &amp; machining units</div>
+          <div class="industry-item"><span>🌐</span> Export markets</div>
+        </div>
+      </div>
+
+      <div class="about-block reveal">
+        <h3 class="about-sub">By the Numbers</h3>
+        <div class="about-grid">
+          <div class="about-stat reveal"><strong>1979</strong><span>Group Established</span></div>
+          <div class="about-stat reveal"><strong>2</strong><span>Integrated Plants</span></div>
+          <div class="about-stat reveal"><strong>~3 Lakh T</strong><span>Annual Capacity</span></div>
+          <div class="about-stat reveal"><strong>90 MW</strong><span>Captive Power</span></div>
+        </div>
+      </div>
+
+      <div class="about-block reveal">
+        <h3 class="about-sub">Quality &amp; Integration</h3>
+        <p>
+          Because melting, casting and rolling sit under one roof, every heat can be traced and
+          controlled — supported by spectrometers, mechanical-testing labs and quality systems.
+          The result is alloy steel that meets the close tolerances and metallurgical properties
+          that automotive and engineering customers depend on.
+        </p>
+      </div>
+
+      <div class="about-block reveal">
+        <h3 class="about-sub">Why Aarti TalentForge</h3>
+        <p>
+          A plant this integrated runs on a remarkably wide range of skills — a Rolling Mill
+          engineer, a Power Plant operator, a SAP consultant, a Cyber Security analyst and a
+          Finance professional share almost nothing on paper. <strong>Aarti TalentForge</strong>
+          gives each function its own AI scoring profile, so every applicant is judged against the
+          work that actually happens in that department, helping the HR team move the right people
+          to interview faster and more objectively.
+        </p>
+      </div>
+
+      <div class="disclaimer reveal">
+        <strong>Note:</strong> Company information here is indicative and compiled for this internal
+        HR tool. Resume scoring is heuristic and built to assist — not replace — human judgement.
+        All processing happens locally in your browser; candidate data is stored only on this device.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <span class="brand-logo small"><span class="brand-logo-text">Aarti</span><span class="brand-logo-bar"></span></span>
+        <span>TalentForge · Aarti Steels Ltd</span>
+      </div>
+      <small>Internal AI demonstration tool · Data stays in your browser</small>
+    </div>
+  </footer>
+
+  <!-- ===================== COMPARISON MODAL ===================== -->
+  <div class="modal" id="compareModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Candidate Comparison</h3>
+        <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" id="compareBody"></div>
+    </div>
+  </div>
+
+  <!-- ===================== BLIND SCREENING EXPLAINER ===================== -->
+  <div class="modal blind-modal" id="blindModal" hidden>
+    <div class="modal-backdrop" data-blind-close></div>
+    <div class="modal-card blind-card">
+      <div class="blind-eye-wrap">
+        <svg class="blind-eye" viewBox="0 0 24 24" aria-hidden="true">
+          <path class="be-eye" d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+          <circle class="be-iris" cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+          <line class="be-slash" x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h3 class="blind-title">Blind Screening <span>Enabled</span></h3>
+      <p class="blind-lead">To reduce unconscious bias, TalentForge now hides who the candidate is — so shortlisting is based purely on merit.</p>
+
+      <div class="blind-demo">
+        <div class="bd-card bd-before">
+          <span class="bd-tag warn">Identity visible</span>
+          <div class="bd-name">Rahul Sharma</div>
+          <div class="bd-line">rahul.sharma@email.com</div>
+          <div class="bd-line">+91 98765 43210</div>
+          <div class="bd-keep">Skills · Experience · Score</div>
+        </div>
+        <div class="bd-arrow">➜</div>
+        <div class="bd-card bd-after">
+          <span class="bd-tag good">🔒 Blind ON</span>
+          <div class="bd-name">Candidate&nbsp;7F3A</div>
+          <span class="redact-bar" style="width:150px"></span>
+          <span class="redact-bar" style="width:120px"></span>
+          <div class="bd-keep ok">Skills · Experience · Score ✓</div>
+        </div>
+      </div>
+
+      <ul class="blind-points">
+        <li data-ic="🙈"><strong>Hidden:</strong> candidate name, email, phone &amp; other identity cues across the Pool, Bulk results, comparison and scorecard.</li>
+        <li data-ic="📊"><strong>Still shown:</strong> skills, experience, education and the AI score — everything you actually evaluate on.</li>
+        <li data-ic="⚖️"><strong>Why it matters:</strong> removing names and contact details helps prevent bias around gender, background or origin, for fairer hiring.</li>
+      </ul>
+
+      <div class="blind-actions">
+        <button class="btn btn-primary" data-blind-keep>Keep It On</button>
+        <button class="btn btn-ghost" data-blind-off>Turn Off</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== BLIND OFF EXPLAINER ===================== -->
+  <div class="modal blind-modal" id="blindModalOff" hidden>
+    <div class="modal-backdrop" data-blindoff-close></div>
+    <div class="modal-card blind-card">
+      <div class="blind-eye-wrap open">
+        <svg class="blind-eye" viewBox="0 0 24 24" aria-hidden="true">
+          <path class="be-eye" d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+          <circle class="be-iris" cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+      </div>
+
+      <h3 class="blind-title">Blind Screening <span class="off">Turned Off</span></h3>
+      <p class="blind-lead">Candidate identities are now visible again. You'll see full names and contact details — please keep evaluating on merit.</p>
+
+      <div class="blind-demo">
+        <div class="bd-card bd-after">
+          <span class="bd-tag good">🔒 Was Blind</span>
+          <div class="bd-name">Candidate&nbsp;7F3A</div>
+          <span class="redact-bar" style="width:150px"></span>
+          <span class="redact-bar" style="width:120px"></span>
+          <div class="bd-keep">Skills · Experience · Score</div>
+        </div>
+        <div class="bd-arrow">➜</div>
+        <div class="bd-card bd-before reveal-card">
+          <span class="bd-tag warn">👁 Now visible</span>
+          <div class="bd-name">Rahul Sharma</div>
+          <div class="bd-line">rahul.sharma@email.com</div>
+          <div class="bd-line">+91 98765 43210</div>
+          <div class="bd-keep">Skills · Experience · Score</div>
+        </div>
+      </div>
+
+      <ul class="blind-points">
+        <li data-ic="👁"><strong>Now visible:</strong> candidate name, email and phone are shown again across the Pool, Bulk results, comparison and scorecard.</li>
+        <li data-ic="🤝"><strong>Use responsibly:</strong> base shortlisting on skills, experience and the AI score — not on personal details.</li>
+        <li data-ic="🔄"><strong>Re-enable anytime:</strong> switch Blind back on whenever you want a fully bias-free review.</li>
+      </ul>
+
+      <div class="blind-actions">
+        <button class="btn btn-primary" data-blindoff-close>Got It</button>
+        <button class="btn btn-ghost" data-blind-reon>Re-enable Blind</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- pdf.js for client-side PDF text extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>
